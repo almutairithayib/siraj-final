@@ -1,0 +1,61 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+backend/.venv/
+*.egg-info/
+dist/
+build/
+
+# Environment files
+.env
+backend/.env
+*.env.local
+
+# Database
+*.db
+siraj.db
+*.sqlite
+
+# Node / pnpm
+node_modules/
+.pnpm-store/
+pnpm-lock.yaml
+
+# Build outputs
+dist/
+.output/
+*.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Replit internals
+.replit
+replit.nix
+.upm/
+.cache/
+.local/
+attached_assets/
+artifacts/
+lib/
+scripts/
+tsconfig*.json
+package.json
+pnpm-workspace.yaml
