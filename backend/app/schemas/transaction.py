@@ -1,12 +1,13 @@
 import uuid
 from datetime import date, datetime
+from typing import Literal
 from pydantic import BaseModel, Field
 
 
 class TransactionCreate(BaseModel):
     amount: float = Field(..., gt=0)
     category: str
-    type: str  # income or expense
+    type: Literal["income", "expense"]
     description: str | None = None
     transaction_date: date = Field(default_factory=date.today)
 

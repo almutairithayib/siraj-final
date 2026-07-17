@@ -94,6 +94,16 @@ async def test_create_transaction_missing_type_rejected(client):
 
 
 @pytest.mark.asyncio
+async def test_create_transaction_invalid_type_rejected(client):
+    """A type value other than 'income' or 'expense' must return 422."""
+    token = await _register_and_login(client, USER_A)
+    for bad_type in ("debit", "credit", "foobar", "", "EXPENSE"):
+        payload = {**VALID_TXN, "type": bad_type}
+        resp = await client.post(TXN_URL, json=payload, headers=_auth(token))
+        assert resp.status_code == 422, f"Expected 422 for type={bad_type!r}, got {resp.status_code}"
+
+
+@pytest.mark.asyncio
 async def test_create_transaction_requires_auth(client):
     """Creating a transaction without a token must return 401."""
     resp = await client.post(TXN_URL, json=VALID_TXN)
