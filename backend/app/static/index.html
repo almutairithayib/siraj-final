@@ -2,503 +2,666 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <title>سِراج – مستشارك المالي الذكي</title>
   <style>
-    /* ── Reset & Base ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #0f1117;
-      --surface: #1a1d27;
-      --card: #1f2235;
-      --border: #2e3250;
-      --primary: #6c63ff;
-      --primary-dark: #5148d4;
-      --accent: #f5a623;
-      --text: #e8eaf0;
-      --text-muted: #8891b0;
-      --success: #22c55e;
-      --danger: #ef4444;
-      --radius: 14px;
-      --shadow: 0 4px 24px rgba(0,0,0,0.4);
+      --navy:        #0d1b3e;
+      --navy-light:  #152347;
+      --navy-card:   #1a2d55;
+      --navy-input:  #1e3060;
+      --salmon:      #e07b6a;
+      --salmon-dark: #c9614e;
+      --user-bubble: #1e3060;
+      --text:        #ffffff;
+      --text-muted:  #8899cc;
+      --green:       #4ade80;
+      --border:      rgba(255,255,255,0.08);
     }
-    body {
-      font-family: 'Segoe UI', 'Noto Sans Arabic', Tahoma, sans-serif;
-      background: var(--bg);
+
+    html, body {
+      height: 100%; background: var(--navy);
+      font-family: 'Segoe UI', 'Noto Sans Arabic', Tahoma, Arial, sans-serif;
       color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
-    /* ── Login Screen ── */
+    /* ── Phone Shell ── */
+    .phone-wrap {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh; padding: 1rem;
+    }
+    .phone {
+      width: 100%; max-width: 390px; min-height: 100vh;
+      background: var(--navy); border-radius: 0;
+      display: flex; flex-direction: column; overflow: hidden;
+      position: relative;
+    }
+    @media (min-height: 700px) and (min-width: 500px) {
+      .phone-wrap { background: #060e22; }
+      .phone {
+        min-height: 780px; max-height: 860px; height: 92vh;
+        border-radius: 40px;
+        box-shadow: 0 0 0 10px #0a1428, 0 30px 80px rgba(0,0,0,.6);
+      }
+    }
+
+    /* ══════════════════════
+       LOGIN SCREEN
+    ══════════════════════ */
     #login-screen {
-      width: 100%;
-      max-width: 420px;
-      padding: 2rem;
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 2rem 1.5rem; gap: 2rem;
     }
-    .logo { text-align: center; margin-bottom: 2rem; }
-    .logo h1 { font-size: 2.5rem; font-weight: 800; color: var(--primary); letter-spacing: -1px; }
-    .logo p { color: var(--text-muted); margin-top: .25rem; font-size: .95rem; }
-    .card {
-      background: var(--card);
+    .login-logo { text-align: center; }
+    .login-logo .logo-circle {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: var(--salmon); margin: 0 auto 1rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; font-weight: 800; color: #fff;
+      box-shadow: 0 8px 24px rgba(224,123,106,.4);
+    }
+    .login-logo h1 { font-size: 2rem; font-weight: 800; color: #fff; }
+    .login-logo p { color: var(--text-muted); font-size: .9rem; margin-top: .3rem; }
+    .login-card {
+      width: 100%; background: var(--navy-card);
+      border-radius: 20px; padding: 1.75rem 1.5rem;
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 2rem;
-      box-shadow: var(--shadow);
     }
-    .card h2 { font-size: 1.25rem; margin-bottom: 1.5rem; color: var(--text); }
-    .field { margin-bottom: 1.2rem; }
-    .field label { display: block; font-size: .85rem; color: var(--text-muted); margin-bottom: .4rem; }
-    .field input {
+    .login-card h2 { font-size: 1.1rem; margin-bottom: 1.25rem; }
+    .lf { margin-bottom: 1rem; }
+    .lf label { display: block; font-size: .8rem; color: var(--text-muted); margin-bottom: .4rem; }
+    .lf input {
       width: 100%; padding: .75rem 1rem;
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 8px; color: var(--text); font-size: 1rem;
-      outline: none; transition: border-color .2s;
-      font-family: inherit;
+      background: var(--navy-input); border: 1px solid var(--border);
+      border-radius: 12px; color: #fff; font-size: .95rem;
+      outline: none; font-family: inherit; transition: border-color .2s;
     }
-    .field input:focus { border-color: var(--primary); }
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
-      width: 100%; padding: .8rem 1.5rem;
-      background: var(--primary); color: #fff;
-      border: none; border-radius: 8px;
-      font-size: 1rem; font-weight: 600; cursor: pointer;
-      transition: background .2s, transform .1s;
-      font-family: inherit;
+    .lf input:focus { border-color: var(--salmon); }
+    .login-btn {
+      width: 100%; padding: .85rem; margin-top: .5rem;
+      background: var(--salmon); color: #fff; border: none;
+      border-radius: 12px; font-size: 1rem; font-weight: 700;
+      cursor: pointer; font-family: inherit; transition: background .2s;
     }
-    .btn:hover { background: var(--primary-dark); }
-    .btn:active { transform: scale(.98); }
-    .btn:disabled { opacity: .5; cursor: not-allowed; }
-    .btn-ghost {
-      background: transparent; border: 1px solid var(--border); color: var(--text-muted);
+    .login-btn:hover { background: var(--salmon-dark); }
+    .login-btn:disabled { opacity: .55; cursor: not-allowed; }
+    .login-hint { color: var(--text-muted); font-size: .78rem; text-align: center; margin-top: .75rem; }
+    .login-err {
+      background: rgba(239,68,68,.12); border: 1px solid rgba(239,68,68,.3);
+      color: #fca5a5; padding: .65rem 1rem; border-radius: 10px;
+      font-size: .85rem; margin-bottom: .75rem; display: none;
     }
-    .btn-ghost:hover { background: var(--surface); }
-    .btn-accent { background: var(--accent); color: #000; }
-    .btn-accent:hover { background: #e09512; }
-    .error-msg {
-      background: rgba(239,68,68,.1); border: 1px solid rgba(239,68,68,.3);
-      color: #fca5a5; padding: .75rem 1rem; border-radius: 8px;
-      font-size: .875rem; margin-bottom: 1rem; display: none;
-    }
-    .hint { color: var(--text-muted); font-size: .8rem; text-align: center; margin-top: 1rem; }
 
-    /* ── App Shell (post-login) ── */
-    #app { display: none; width: 100%; max-width: 1280px; height: 100vh; flex-direction: column; }
-    body.logged-in { align-items: stretch; }
+    /* ══════════════════════
+       MAIN APP
+    ══════════════════════ */
+    #app { flex: 1; display: none; flex-direction: column; overflow: hidden; }
     body.logged-in #login-screen { display: none; }
     body.logged-in #app { display: flex; }
 
-    /* ── Top Bar ── */
+    /* ── Top Header ── */
     .topbar {
-      background: var(--surface); border-bottom: 1px solid var(--border);
-      padding: .75rem 1.5rem;
+      background: var(--navy-card); padding: .9rem 1.1rem;
       display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0; border-bottom: 1px solid var(--border);
+    }
+    .topbar-right { display: flex; align-items: center; gap: .65rem; }
+    .topbar-right .user-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--salmon); display: flex; align-items: center; justify-content: center;
+      font-size: .85rem; font-weight: 700; color: #fff; flex-shrink: 0;
+    }
+    .topbar-right .user-name { font-size: .95rem; font-weight: 600; }
+    .topbar-left { display: flex; align-items: center; gap: .85rem; }
+    .topbar-left .icon-btn {
+      background: none; border: none; color: var(--text-muted);
+      font-size: 1.1rem; cursor: pointer; padding: .25rem; line-height: 1;
+      position: relative;
+    }
+    .notif-badge {
+      position: absolute; top: -2px; right: -2px;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #f59e0b; border: 1.5px solid var(--navy-card);
+    }
+
+    /* ── Chat Header ── */
+    .chat-header {
+      background: var(--navy-light); padding: .75rem 1.1rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0; border-bottom: 1px solid var(--border);
+    }
+    .chat-header-right { display: flex; align-items: center; gap: .6rem; }
+    .siraj-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--salmon); display: flex; align-items: center; justify-content: center;
+      font-size: .85rem; font-weight: 700; color: #fff; flex-shrink: 0;
+    }
+    .chat-header-info .chat-name { font-size: .95rem; font-weight: 700; }
+    .chat-header-info .chat-status {
+      font-size: .75rem; color: var(--green); display: flex; align-items: center; gap: .3rem;
+    }
+    .chat-header-info .chat-status::before {
+      content: ''; display: inline-block; width: 6px; height: 6px;
+      border-radius: 50%; background: var(--green);
+    }
+    .chat-header-left { color: var(--text-muted); font-size: 1.1rem; cursor: pointer; }
+
+    /* ── Chat Messages ── */
+    .chat-messages {
+      flex: 1; overflow-y: auto; padding: 1rem .9rem;
+      display: flex; flex-direction: column; gap: .75rem;
+      scroll-behavior: smooth;
+    }
+    .chat-messages::-webkit-scrollbar { width: 4px; }
+    .chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .msg { display: flex; flex-direction: column; max-width: 82%; }
+    .msg.assistant { align-self: flex-end; align-items: flex-end; }
+    .msg.user      { align-self: flex-start; align-items: flex-start; }
+
+    .msg-bubble {
+      padding: .75rem 1rem; border-radius: 18px;
+      font-size: .9rem; line-height: 1.6; white-space: pre-wrap; word-break: break-word;
+    }
+    .msg.assistant .msg-bubble {
+      background: var(--salmon); color: #fff;
+      border-top-left-radius: 4px;
+    }
+    .msg.user .msg-bubble {
+      background: var(--user-bubble); color: #fff;
+      border: 1px solid rgba(255,255,255,.1);
+      border-top-right-radius: 4px;
+    }
+    .msg-time { font-size: .68rem; color: var(--text-muted); margin-top: .25rem; }
+
+    /* typing / status indicator */
+    .status-chip {
+      align-self: flex-end;
+      background: rgba(224,123,106,.15); border: 1px solid rgba(224,123,106,.3);
+      color: var(--salmon); padding: .4rem .85rem; border-radius: 20px;
+      font-size: .8rem; display: flex; align-items: center; gap: .4rem;
+    }
+    .typing-dots span {
+      display: inline-block; width: 5px; height: 5px; border-radius: 50%;
+      background: var(--salmon); animation: blink 1.2s ease-in-out infinite;
+    }
+    .typing-dots span:nth-child(2) { animation-delay: .2s; }
+    .typing-dots span:nth-child(3) { animation-delay: .4s; }
+    @keyframes blink { 0%,80%,100% { opacity: .2 } 40% { opacity: 1 } }
+
+    /* ── Quick Chips ── */
+    .quick-chips {
+      padding: .6rem .9rem; display: flex; gap: .5rem;
+      overflow-x: auto; flex-shrink: 0;
+    }
+    .quick-chips::-webkit-scrollbar { display: none; }
+    .chip {
+      white-space: nowrap; padding: .45rem .9rem;
+      background: var(--navy-card); border: 1px solid var(--border);
+      border-radius: 20px; font-size: .8rem; color: var(--text);
+      cursor: pointer; font-family: inherit; transition: all .2s; flex-shrink: 0;
+    }
+    .chip:hover { border-color: var(--salmon); color: var(--salmon); }
+
+    /* ── Input Bar ── */
+    .input-bar {
+      padding: .75rem .9rem; background: var(--navy-card);
+      display: flex; align-items: center; gap: .6rem;
+      border-top: 1px solid var(--border); flex-shrink: 0;
+    }
+    .input-bar textarea {
+      flex: 1; background: var(--navy-input); border: 1px solid var(--border);
+      border-radius: 20px; color: #fff; font-size: .9rem;
+      padding: .6rem 1rem; resize: none; outline: none;
+      font-family: inherit; max-height: 100px; min-height: 40px;
+      line-height: 1.5; transition: border-color .2s;
+    }
+    .input-bar textarea:focus { border-color: var(--salmon); }
+    .send-btn {
+      width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+      background: var(--salmon); border: none; color: #fff;
+      font-size: 1rem; cursor: pointer; display: flex;
+      align-items: center; justify-content: center;
+      transition: background .2s;
+    }
+    .send-btn:hover { background: var(--salmon-dark); }
+    .send-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+    /* ── Bottom Nav ── */
+    .bottom-nav {
+      background: var(--navy-card); border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-around;
+      padding: .6rem 0 calc(.6rem + env(safe-area-inset-bottom));
       flex-shrink: 0;
     }
-    .topbar .brand { font-size: 1.25rem; font-weight: 800; color: var(--primary); }
-    .topbar .user-info { display: flex; align-items: center; gap: 1rem; }
-    .topbar .user-name { font-size: .9rem; color: var(--text-muted); }
-    .topbar .btn-logout {
-      background: transparent; border: 1px solid var(--border);
-      color: var(--text-muted); padding: .4rem .9rem;
-      border-radius: 6px; font-size: .8rem; cursor: pointer;
-      font-family: inherit; transition: all .2s;
+    .nav-item {
+      display: flex; flex-direction: column; align-items: center; gap: .2rem;
+      flex: 1; cursor: pointer; padding: .2rem 0;
+      color: var(--text-muted); font-size: .65rem;
+      background: none; border: none; font-family: inherit;
+      transition: color .2s;
     }
-    .topbar .btn-logout:hover { border-color: var(--danger); color: var(--danger); }
-
-    /* ── Main Layout ── */
-    .main { display: flex; flex: 1; overflow: hidden; }
-
-    /* ── Sidebar ── */
-    .sidebar {
-      width: 280px; background: var(--surface); border-left: 1px solid var(--border);
-      display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto;
+    .nav-item:hover { color: var(--salmon); }
+    .nav-item.active { color: var(--text); }
+    .nav-item .nav-icon { font-size: 1.1rem; line-height: 1; }
+    .nav-item.center-nav { position: relative; top: -12px; }
+    .nav-item.center-nav .nav-center-circle {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: var(--salmon); display: flex; align-items: center; justify-content: center;
+      font-size: .75rem; font-weight: 700; color: #fff;
+      box-shadow: 0 4px 16px rgba(224,123,106,.5);
+      flex-direction: column; gap: 2px;
     }
-    .sidebar-section { padding: 1rem; }
-    .sidebar-section h3 { font-size: .8rem; text-transform: uppercase; letter-spacing: .1em; color: var(--text-muted); margin-bottom: .75rem; }
-
-    /* Quick Actions */
-    .quick-actions { display: flex; flex-direction: column; gap: .5rem; }
-    .quick-btn {
-      display: flex; align-items: center; gap: .6rem;
-      padding: .65rem .9rem; background: var(--card);
-      border: 1px solid var(--border); border-radius: 8px;
-      color: var(--text); font-size: .875rem; cursor: pointer;
-      transition: all .2s; font-family: inherit; text-align: right;
-    }
-    .quick-btn:hover { border-color: var(--primary); background: rgba(108,99,255,.08); }
-    .quick-btn .icon { font-size: 1.1rem; flex-shrink: 0; }
-
-    /* Summary Card */
-    .summary-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; }
-    .summary-row { display: flex; justify-content: space-between; align-items: center; padding: .35rem 0; font-size: .85rem; }
-    .summary-row:not(:last-child) { border-bottom: 1px solid var(--border); }
-    .summary-row .label { color: var(--text-muted); }
-    .summary-row .val { font-weight: 600; }
-    .val.income { color: var(--success); }
-    .val.expense { color: var(--danger); }
-    .val.saving { color: var(--primary); }
-
-    /* ── Chat Area ── */
-    .chat-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-    .chat-messages {
-      flex: 1; overflow-y: auto; padding: 1.5rem;
-      display: flex; flex-direction: column; gap: 1rem;
-    }
-    .chat-messages::-webkit-scrollbar { width: 6px; }
-    .chat-messages::-webkit-scrollbar-track { background: transparent; }
-    .chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-
-    .msg { max-width: 75%; display: flex; flex-direction: column; gap: .3rem; }
-    .msg.user { align-self: flex-start; }
-    .msg.assistant { align-self: flex-end; }
-    .msg-bubble {
-      padding: .75rem 1.1rem; border-radius: 14px;
-      font-size: .95rem; line-height: 1.6; white-space: pre-wrap; word-break: break-word;
-    }
-    .msg.user .msg-bubble { background: var(--primary); color: #fff; border-bottom-right-radius: 4px; }
-    .msg.assistant .msg-bubble { background: var(--card); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
-    .msg-time { font-size: .7rem; color: var(--text-muted); }
-    .msg.user .msg-time { text-align: right; }
-    .msg.assistant .msg-time { text-align: left; }
-
-    .status-bubble {
-      align-self: flex-end;
-      background: rgba(108,99,255,.1); border: 1px solid rgba(108,99,255,.3);
-      color: var(--primary); padding: .5rem 1rem; border-radius: 20px;
-      font-size: .85rem; display: flex; align-items: center; gap: .5rem;
-    }
-    .dot-pulse::after {
-      content: ''; display: inline-block; width: 6px; height: 6px;
-      background: var(--primary); border-radius: 50%;
-      animation: pulse 1s ease-in-out infinite;
-    }
-    @keyframes pulse { 0%,100% { opacity: .3 } 50% { opacity: 1 } }
-
-    .welcome-card {
-      text-align: center; padding: 3rem 2rem; margin: auto;
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: var(--radius); max-width: 480px;
-    }
-    .welcome-card .big-icon { font-size: 3rem; margin-bottom: 1rem; }
-    .welcome-card h2 { font-size: 1.4rem; margin-bottom: .5rem; }
-    .welcome-card p { color: var(--text-muted); font-size: .9rem; line-height: 1.6; }
-    .welcome-chips { display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center; margin-top: 1.2rem; }
-    .chip {
-      padding: .4rem .85rem; background: var(--surface); border: 1px solid var(--border);
-      border-radius: 20px; font-size: .8rem; color: var(--text-muted);
-      cursor: pointer; transition: all .2s;
-    }
-    .chip:hover { border-color: var(--primary); color: var(--primary); background: rgba(108,99,255,.08); }
-
-    /* ── Chat Input ── */
-    .chat-input-bar {
-      padding: 1rem 1.5rem; background: var(--surface);
-      border-top: 1px solid var(--border);
-      display: flex; gap: .75rem; align-items: flex-end;
-    }
-    .chat-input-bar textarea {
-      flex: 1; padding: .75rem 1rem;
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 12px; color: var(--text); font-size: .95rem;
-      resize: none; outline: none; font-family: inherit;
-      transition: border-color .2s; max-height: 120px; min-height: 48px;
-      line-height: 1.5;
-    }
-    .chat-input-bar textarea:focus { border-color: var(--primary); }
-    .send-btn {
-      width: 48px; height: 48px; border-radius: 12px; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem; padding: 0;
-    }
+    .nav-item.center-nav .nav-center-circle .cn-label { font-size: .6rem; }
 
     /* ── Savings Modal ── */
-    .modal-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,.6);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 100; padding: 1rem;
+    .modal-bg {
+      position: absolute; inset: 0; background: rgba(6,14,34,.75);
+      display: flex; align-items: flex-end; z-index: 50;
     }
-    .modal-overlay.hidden { display: none; }
-    .modal {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 2rem; width: 100%; max-width: 440px;
-      box-shadow: var(--shadow);
+    .modal-bg.hidden { display: none; }
+    .modal-sheet {
+      width: 100%; background: var(--navy-card);
+      border-radius: 24px 24px 0 0; padding: 1.5rem;
+      border-top: 1px solid var(--border);
+      animation: slideUp .25s ease;
     }
-    .modal h2 { font-size: 1.2rem; margin-bottom: 1.5rem; }
-    .modal .field { margin-bottom: 1rem; }
-    .modal-btns { display: flex; gap: .75rem; margin-top: 1.5rem; }
-    .modal-btns .btn { flex: 1; }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    .modal-handle {
+      width: 36px; height: 4px; border-radius: 2px;
+      background: var(--border); margin: 0 auto 1.25rem;
+    }
+    .modal-sheet h2 { font-size: 1.05rem; margin-bottom: 1.25rem; text-align: center; }
+    .mf { margin-bottom: .9rem; }
+    .mf label { display: block; font-size: .78rem; color: var(--text-muted); margin-bottom: .35rem; }
+    .mf input {
+      width: 100%; padding: .65rem .9rem;
+      background: var(--navy-input); border: 1px solid var(--border);
+      border-radius: 10px; color: #fff; font-size: .9rem;
+      outline: none; font-family: inherit; transition: border-color .2s;
+    }
+    .mf input:focus { border-color: var(--salmon); }
+    .modal-btns { display: flex; gap: .6rem; margin-top: 1.25rem; }
+    .modal-btns button { flex: 1; padding: .75rem; border-radius: 12px; font-size: .9rem; font-weight: 600; cursor: pointer; font-family: inherit; border: none; }
+    .modal-cancel { background: var(--navy-input); color: var(--text-muted); border: 1px solid var(--border) !important; }
+    .modal-confirm { background: var(--salmon); color: #fff; }
+    .modal-confirm:hover { background: var(--salmon-dark); }
 
-    @media (max-width: 768px) {
-      .sidebar { display: none; }
-      .msg { max-width: 90%; }
+    /* ── Pages (dashboard, transactions, etc.) ── */
+    .page { flex: 1; overflow-y: auto; padding: 1rem; display: none; flex-direction: column; gap: .85rem; }
+    .page.active { display: flex; }
+    .page-title { font-size: 1.05rem; font-weight: 700; padding: .25rem 0; }
+    .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; }
+    .sum-card {
+      background: var(--navy-card); border: 1px solid var(--border);
+      border-radius: 14px; padding: .85rem 1rem;
     }
+    .sum-card .sc-label { font-size: .72rem; color: var(--text-muted); margin-bottom: .3rem; }
+    .sum-card .sc-val { font-size: 1.1rem; font-weight: 700; }
+    .sc-val.income { color: #4ade80; }
+    .sc-val.expense { color: #f87171; }
+    .sc-val.saving { color: var(--salmon); }
+    .sc-val.rate { color: #60a5fa; }
+    .tx-list { display: flex; flex-direction: column; gap: .5rem; }
+    .tx-row {
+      background: var(--navy-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: .75rem 1rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .tx-row .tx-cat { font-size: .8rem; color: var(--text-muted); margin-top: .15rem; }
+    .tx-row .tx-amt { font-size: .95rem; font-weight: 600; }
+    .tx-row .tx-amt.neg { color: #f87171; }
+    .tx-row .tx-amt.pos { color: #4ade80; }
   </style>
 </head>
 <body>
 
-<!-- ══ LOGIN ══ -->
-<div id="login-screen">
-  <div class="logo">
-    <h1>سِراج</h1>
-    <p>مستشارك المالي الذكي – بمبادئ إسلامية</p>
-  </div>
-  <div class="card">
-    <h2>تسجيل الدخول</h2>
-    <div class="error-msg" id="login-error"></div>
-    <div class="field">
-      <label>البريد الإلكتروني</label>
-      <input type="email" id="email" value="sara@siraj.sa" autocomplete="email" />
-    </div>
-    <div class="field">
-      <label>كلمة المرور</label>
-      <input type="password" id="password" value="password123" autocomplete="current-password" />
-    </div>
-    <button class="btn" id="login-btn" onclick="login()">دخول</button>
-    <p class="hint">حساب تجريبي: sara@siraj.sa / password123</p>
-  </div>
-</div>
+<div class="phone-wrap">
+<div class="phone">
 
-<!-- ══ APP ══ -->
-<div id="app">
-  <!-- Top Bar -->
-  <div class="topbar">
-    <div class="brand">سِراج ✦</div>
-    <div class="user-info">
-      <span class="user-name" id="user-name-display">—</span>
-      <button class="btn-logout" onclick="logout()">خروج</button>
+  <!-- ══ LOGIN ══ -->
+  <div id="login-screen">
+    <div class="login-logo">
+      <div class="logo-circle">سر</div>
+      <h1>سِراج</h1>
+      <p>مستشارك المالي الذكي – بمبادئ إسلامية</p>
+    </div>
+    <div class="login-card">
+      <h2>تسجيل الدخول</h2>
+      <div class="login-err" id="login-err"></div>
+      <div class="lf">
+        <label>البريد الإلكتروني</label>
+        <input type="email" id="email" value="sara@siraj.sa" />
+      </div>
+      <div class="lf">
+        <label>كلمة المرور</label>
+        <input type="password" id="password" value="password123" />
+      </div>
+      <button class="login-btn" id="login-btn" onclick="login()">دخول</button>
+      <p class="login-hint">حساب تجريبي: sara@siraj.sa / password123</p>
     </div>
   </div>
 
-  <div class="main">
-    <!-- Chat -->
-    <div class="chat-area">
-      <div class="chat-messages" id="chat-messages">
-        <div class="welcome-card" id="welcome-card">
-          <div class="big-icon">🌟</div>
-          <h2>مرحباً! أنا سِراج</h2>
-          <p>مستشارك المالي الذكي. يمكنني مساعدتك في تحليل مصاريفك، إنشاء ميزانيات، وتخطيط مدخراتك وفق المبادئ الإسلامية.</p>
-          <div class="welcome-chips">
-            <span class="chip" onclick="sendChip('كيف حال ميزانيتي هذا الشهر؟')">📊 تحليل الميزانية</span>
-            <span class="chip" onclick="sendChip('ما هي مصاريفي الأكثر هذا الشهر؟')">💸 أكبر المصاريف</span>
-            <span class="chip" onclick="sendChip('أريد إنشاء حصالة ادخار')">🐖 إنشاء حصالة</span>
-            <span class="chip" onclick="sendChip('كيف يمكنني رفع نسبة مدخراتي؟')">📈 زيادة المدخرات</span>
-            <span class="chip" onclick="sendChip('هل هناك اشتراكات متكررة في حسابي؟')">🔄 الاشتراكات</span>
+  <!-- ══ APP ══ -->
+  <div id="app">
+
+    <!-- Top header -->
+    <div class="topbar">
+      <div class="topbar-right">
+        <div class="user-avatar" id="top-avatar">سا</div>
+        <span class="user-name" id="top-name">سارة المطيري</span>
+      </div>
+      <div class="topbar-left">
+        <button class="icon-btn" onclick="logout()" title="خروج">
+          <span>↩</span>
+        </button>
+        <button class="icon-btn" title="الإشعارات">
+          <span>🔔</span>
+          <div class="notif-badge"></div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Chat page -->
+    <div class="page active" id="page-chat">
+      <!-- Chat sub-header -->
+      <div class="chat-header" style="margin: 0 -1rem; width: calc(100% + 2rem);">
+        <div class="chat-header-right">
+          <div class="siraj-avatar">سر</div>
+          <div class="chat-header-info">
+            <div class="chat-name">سراج</div>
+            <div class="chat-status">متصل الآن</div>
           </div>
         </div>
+        <div class="chat-header-left">🕐</div>
       </div>
 
-      <div class="chat-input-bar">
-        <button class="btn send-btn" onclick="sendMessage()" title="إرسال">➤</button>
+      <!-- Messages -->
+      <div class="chat-messages" id="chat-messages" style="margin: 0 -1rem; padding: 1rem .9rem; flex: 1;">
+        <!-- Seeded by JS -->
+      </div>
+
+      <!-- Quick chips -->
+      <div class="quick-chips" style="margin: 0 -1rem; padding: .6rem .9rem;">
+        <button class="chip" onclick="sendChip('أريد إنشاء حصالة ادخار جديدة')">حصالة جديدة</button>
+        <button class="chip" onclick="sendChip('اقترح لي خطة ادخار مناسبة')">اقترح خطة ادخار</button>
+        <button class="chip" onclick="sendChip('كم باقي على هدف السفر؟')">كم باقي على هدف السفر؟</button>
+        <button class="chip" onclick="sendChip('ما هو ملخصي المالي هذا الشهر؟')">الملخص الشهري</button>
+      </div>
+
+      <!-- Input -->
+      <div class="input-bar" style="margin: 0 -1rem; padding: .75rem .9rem;">
+        <button class="send-btn" id="send-btn" onclick="sendMessage()">➤</button>
         <textarea
           id="chat-input"
           rows="1"
-          placeholder="اكتب رسالتك هنا… (Enter للإرسال، Shift+Enter لسطر جديد)"
+          placeholder="اكتب رسالتك..."
           onkeydown="handleKey(event)"
           oninput="autoResize(this)"
         ></textarea>
       </div>
     </div>
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <!-- Quick Actions -->
-      <div class="sidebar-section">
-        <h3>إجراءات سريعة</h3>
-        <div class="quick-actions">
-          <button class="quick-btn" onclick="openSavingsModal()">
-            <span class="icon">🏦</span> إنشاء حصالة ادخار
-          </button>
-          <button class="quick-btn" onclick="sendChip('أضف معاملة جديدة للمصاريف')">
-            <span class="icon">➕</span> إضافة معاملة
-          </button>
-          <button class="quick-btn" onclick="sendChip('أعطني ملخص مالي كاملاً')">
-            <span class="icon">📋</span> الملخص المالي
-          </button>
-          <button class="quick-btn" onclick="sendChip('ما هو الوضع المالي الحالي وكيف يمكن تحسينه؟')">
-            <span class="icon">💡</span> نصائح مالية
-          </button>
-          <button class="quick-btn" onclick="sendChip('ما هي فرص الاستثمار المتاحة؟')">
-            <span class="icon">📈</span> فرص الاستثمار
-          </button>
-          <button class="quick-btn" onclick="sendChip('أريد تقديم طلب تمويل إسلامي')">
-            <span class="icon">🤝</span> تمويل إسلامي
-          </button>
+    <!-- Dashboard page -->
+    <div class="page" id="page-home">
+      <div class="page-title">الرئيسية</div>
+      <div class="summary-grid">
+        <div class="sum-card">
+          <div class="sc-label">الدخل هذا الشهر</div>
+          <div class="sc-val income" id="sum-income">—</div>
+        </div>
+        <div class="sum-card">
+          <div class="sc-label">المصاريف</div>
+          <div class="sc-val expense" id="sum-expense">—</div>
+        </div>
+        <div class="sum-card">
+          <div class="sc-label">المدخرات</div>
+          <div class="sc-val saving" id="sum-savings">—</div>
+        </div>
+        <div class="sum-card">
+          <div class="sc-label">نسبة الادخار</div>
+          <div class="sc-val rate" id="sum-rate">—</div>
         </div>
       </div>
+      <div class="page-title" style="margin-top:.5rem">آخر المعاملات</div>
+      <div class="tx-list" id="tx-list-home"></div>
+    </div>
 
-      <!-- Financial Summary -->
-      <div class="sidebar-section">
-        <h3>ملخص هذا الشهر</h3>
-        <div class="summary-card" id="summary-card">
-          <div class="summary-row">
-            <span class="label">الدخل</span>
-            <span class="val income" id="sum-income">—</span>
-          </div>
-          <div class="summary-row">
-            <span class="label">المصاريف</span>
-            <span class="val expense" id="sum-expense">—</span>
-          </div>
-          <div class="summary-row">
-            <span class="label">المدخرات</span>
-            <span class="val saving" id="sum-savings">—</span>
-          </div>
-          <div class="summary-row">
-            <span class="label">نسبة الادخار</span>
-            <span class="val" id="sum-rate">—</span>
-          </div>
+    <!-- Transactions page -->
+    <div class="page" id="page-tx">
+      <div class="page-title">المعاملات</div>
+      <div class="tx-list" id="tx-list-full"></div>
+    </div>
+
+    <!-- Financing page -->
+    <div class="page" id="page-fin">
+      <div class="page-title">التمويل</div>
+      <p style="color:var(--text-muted);font-size:.9rem;margin-top:.5rem">
+        اطلب تمويلاً إسلامياً عبر المساعد الذكي سراج.
+      </p>
+      <button class="chip" style="border-radius:12px;padding:.75rem 1rem;font-size:.9rem;margin-top:.5rem;text-align:center;display:block;width:100%"
+        onclick="goChat(); sendChip('أريد تقديم طلب تمويل إسلامي')">تحدث مع سراج للتمويل</button>
+    </div>
+
+    <!-- More page -->
+    <div class="page" id="page-more">
+      <div class="page-title">المزيد</div>
+      <div class="sum-card" style="cursor:pointer" onclick="openSavingsModal()">
+        <div class="sc-label">حصالة ادخار</div>
+        <div style="font-size:.9rem;margin-top:.3rem">إنشاء حصالة ادخار جديدة ✨</div>
+      </div>
+      <div class="sum-card" style="cursor:pointer;margin-top:.3rem" onclick="logout()">
+        <div class="sc-label">الحساب</div>
+        <div style="font-size:.9rem;margin-top:.3rem;color:#f87171">تسجيل الخروج</div>
+      </div>
+    </div>
+
+    <!-- Bottom Nav -->
+    <div class="bottom-nav">
+      <button class="nav-item active" id="nav-home" onclick="showPage('home')">
+        <span class="nav-icon">🏠</span>
+        <span>الرئيسية</span>
+      </button>
+      <button class="nav-item" id="nav-tx" onclick="showPage('tx')">
+        <span class="nav-icon">↔️</span>
+        <span>المعاملات</span>
+      </button>
+      <button class="nav-item center-nav" id="nav-chat" onclick="showPage('chat')">
+        <div class="nav-center-circle">
+          <span>سراج</span>
         </div>
+      </button>
+      <button class="nav-item" id="nav-fin" onclick="showPage('fin')">
+        <span class="nav-icon">💳</span>
+        <span>التمويل</span>
+      </button>
+      <button class="nav-item" id="nav-more" onclick="showPage('more')">
+        <span class="nav-icon">⊞</span>
+        <span>المزيد</span>
+      </button>
+    </div>
+
+  </div><!-- /#app -->
+
+  <!-- Savings Modal -->
+  <div class="modal-bg hidden" id="savings-modal">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <h2>🏦 حصالة ادخار جديدة</h2>
+      <div class="mf">
+        <label>اسم الحصالة</label>
+        <input type="text" id="s-name" placeholder="مثال: رحلة العمرة، سيارة جديدة" />
+      </div>
+      <div class="mf">
+        <label>المبلغ المستهدف (ريال)</label>
+        <input type="number" id="s-target" placeholder="مثال: 10000" />
+      </div>
+      <div class="mf">
+        <label>المساهمة الشهرية (ريال)</label>
+        <input type="number" id="s-monthly" placeholder="مثال: 500" />
+      </div>
+      <div class="mf">
+        <label>تاريخ الهدف</label>
+        <input type="date" id="s-date" />
+      </div>
+      <div class="modal-btns">
+        <button class="modal-cancel" onclick="closeSavingsModal()">إلغاء</button>
+        <button class="modal-confirm" onclick="createSavingsViaChat()">✨ إنشاء</button>
       </div>
     </div>
   </div>
-</div>
 
-<!-- ══ SAVINGS MODAL ══ -->
-<div class="modal-overlay hidden" id="savings-modal">
-  <div class="modal">
-    <h2>🏦 إنشاء حصالة ادخار جديدة</h2>
-    <div class="field">
-      <label>اسم الحصالة</label>
-      <input type="text" id="s-name" placeholder="مثال: رحلة العمرة، سيارة جديدة" />
-    </div>
-    <div class="field">
-      <label>المبلغ المستهدف (ريال)</label>
-      <input type="number" id="s-target" placeholder="مثال: 10000" min="100" />
-    </div>
-    <div class="field">
-      <label>المساهمة الشهرية (ريال)</label>
-      <input type="number" id="s-monthly" placeholder="مثال: 500" min="10" />
-    </div>
-    <div class="field">
-      <label>تاريخ الهدف</label>
-      <input type="date" id="s-date" />
-    </div>
-    <div class="modal-btns">
-      <button class="btn btn-ghost" onclick="closeSavingsModal()">إلغاء</button>
-      <button class="btn btn-accent" onclick="createSavingsViaChat()">✨ إنشاء الحصالة</button>
-    </div>
-  </div>
-</div>
+</div><!-- /.phone -->
+</div><!-- /.phone-wrap -->
 
 <script>
 /* ── State ── */
 let token = localStorage.getItem('siraj_token') || '';
 let sessionId = null;
 let isStreaming = false;
+let currentPage = 'home';
 
-/* ── Login / Logout ── */
+/* ══ AUTH ══ */
 async function login() {
-  const email = document.getElementById('email').value.trim();
-  const password = document.getElementById('password').value;
   const btn = document.getElementById('login-btn');
-  const errEl = document.getElementById('login-error');
+  const errEl = document.getElementById('login-err');
   errEl.style.display = 'none';
   btn.disabled = true; btn.textContent = 'جاري الدخول…';
-
   try {
-    const res = await fetch('/api/v1/auth/login', {
+    const r = await fetch('/api/v1/auth/login', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify({
+        email: document.getElementById('email').value.trim(),
+        password: document.getElementById('password').value
+      })
     });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.detail || 'خطأ في تسجيل الدخول');
-
-    token = data.access_token;
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.detail || 'خطأ في تسجيل الدخول');
+    token = d.access_token;
     localStorage.setItem('siraj_token', token);
-    document.getElementById('user-name-display').textContent = data.user?.full_name || email;
+    setUserDisplay(d.user);
     document.body.classList.add('logged-in');
-    await initApp();
+    await bootApp();
   } catch (e) {
     errEl.textContent = e.message; errEl.style.display = 'block';
-  } finally {
-    btn.disabled = false; btn.textContent = 'دخول';
-  }
+  } finally { btn.disabled = false; btn.textContent = 'دخول'; }
 }
 
 function logout() {
   token = ''; sessionId = null;
   localStorage.removeItem('siraj_token');
   document.body.classList.remove('logged-in');
-  clearMessages();
+  document.getElementById('chat-messages').innerHTML = '';
+  showPage('home');
 }
 
-/* ── Init ── */
-async function initApp() {
-  await Promise.all([loadSummary(), ensureSession()]);
+function setUserDisplay(user) {
+  if (!user) return;
+  const name = user.full_name || user.email || '';
+  document.getElementById('top-name').textContent = name;
+  const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2);
+  document.getElementById('top-avatar').textContent = initials || 'سا';
 }
 
 async function autoLogin() {
   if (!token) return;
   try {
-    const res = await fetch('/api/v1/dashboard/summary', {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    if (!res.ok) { token = ''; localStorage.removeItem('siraj_token'); return; }
-    // Get user info
-    const authRes = await fetch('/api/v1/auth/me', {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    if (authRes.ok) {
-      const user = await authRes.json();
-      document.getElementById('user-name-display').textContent = user.full_name || '';
-    }
+    const r = await fetch('/api/v1/auth/me', { headers: { Authorization: `Bearer ${token}` } });
+    if (!r.ok) { token = ''; localStorage.removeItem('siraj_token'); return; }
+    const user = await r.json();
+    setUserDisplay(user);
     document.body.classList.add('logged-in');
-    await initApp();
+    await bootApp();
   } catch { token = ''; localStorage.removeItem('siraj_token'); }
 }
 
-/* ── Dashboard Summary ── */
+/* ══ BOOT ══ */
+async function bootApp() {
+  showPage('chat');
+  await Promise.all([ensureSession(), loadSummary(), loadTransactions()]);
+  seedWelcome();
+}
+
+/* ══ PAGES ══ */
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  const navEl = document.getElementById('nav-' + name);
+  if (navEl) navEl.classList.add('active');
+  currentPage = name;
+}
+function goChat() { showPage('chat'); }
+
+/* ══ DASHBOARD ══ */
 async function loadSummary() {
   try {
-    const res = await fetch('/api/v1/dashboard/summary', {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    if (!res.ok) return;
-    const d = await res.json();
-    const fmt = n => Number(n).toLocaleString('ar-SA') + ' ﷼';
-    document.getElementById('sum-income').textContent = fmt(d.total_income ?? 0);
-    document.getElementById('sum-expense').textContent = fmt(d.total_expense ?? 0);
-    document.getElementById('sum-savings').textContent = fmt(d.total_savings ?? 0);
-    document.getElementById('sum-rate').textContent = (d.savings_rate ?? 0) + '%';
+    const r = await fetch('/api/v1/dashboard/summary', { headers: { Authorization: `Bearer ${token}` } });
+    if (!r.ok) return;
+    const d = await r.json();
+    const fmt = n => Number(n || 0).toLocaleString('ar-SA') + ' ﷼';
+    document.getElementById('sum-income').textContent  = fmt(d.total_income);
+    document.getElementById('sum-expense').textContent = fmt(d.total_expense);
+    document.getElementById('sum-savings').textContent = fmt(d.total_savings);
+    document.getElementById('sum-rate').textContent    = (d.savings_rate || 0) + '%';
   } catch {}
 }
 
-/* ── Chat Session ── */
+async function loadTransactions() {
+  try {
+    const r = await fetch('/api/v1/transactions/?limit=20', { headers: { Authorization: `Bearer ${token}` } });
+    if (!r.ok) return;
+    const list = await r.json();
+    const fmt = n => Number(n || 0).toLocaleString('ar-SA') + ' ﷼';
+    const render = (el, items) => {
+      el.innerHTML = items.map(t => {
+        const neg = t.transaction_type === 'expense';
+        return `<div class="tx-row">
+          <div><div>${t.description || t.category}</div><div class="tx-cat">${t.category}</div></div>
+          <div class="tx-amt ${neg ? 'neg' : 'pos'}">${neg ? '-' : '+'}${fmt(t.amount)}</div>
+        </div>`;
+      }).join('');
+    };
+    render(document.getElementById('tx-list-home'), list.slice(0, 5));
+    render(document.getElementById('tx-list-full'), list);
+  } catch {}
+}
+
+/* ══ CHAT SESSION ══ */
 async function ensureSession() {
   if (sessionId) return;
   try {
-    const res = await fetch('/api/v1/chat/sessions', {
-      method: 'POST', headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({ title: 'جلسة جديدة' })
+    const r = await fetch('/api/v1/chat/sessions', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ title: 'محادثة سراج' })
     });
-    const data = await res.json();
-    sessionId = data.id;
-  } catch (e) { console.error('Session error', e); }
+    const d = await r.json(); sessionId = d.id;
+  } catch {}
 }
 
-/* ── Send Message ── */
+function seedWelcome() {
+  const c = document.getElementById('chat-messages');
+  if (c.children.length > 0) return;
+  appendMsg('assistant', 'أهلاً! أنا سراج، مستشارك المالي الذكي. اسألني عن وضعك المالي أو اطلب مني تنفيذ عملية.');
+}
+
+/* ══ SEND ══ */
 async function sendMessage() {
   const input = document.getElementById('chat-input');
   const text = input.value.trim();
   if (!text || isStreaming) return;
   if (!sessionId) { await ensureSession(); if (!sessionId) return; }
 
-  input.value = '';
-  autoResize(input);
-  hideWelcome();
-
+  input.value = ''; autoResize(input);
   appendMsg('user', text);
+
   const aEl = appendMsg('assistant', '');
   const bubble = aEl.querySelector('.msg-bubble');
   let statusEl = null;
-
   isStreaming = true;
-  disableInput(true);
+  document.getElementById('send-btn').disabled = true;
 
   try {
     const res = await fetch(`/api/v1/chat/sessions/${sessionId}/messages`, {
@@ -506,139 +669,88 @@ async function sendMessage() {
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
       body: JSON.stringify({ content: text })
     });
-
-    if (!res.ok) {
-      bubble.textContent = 'حدث خطأ في الاتصال بالخادم.';
-      return;
-    }
+    if (!res.ok) { bubble.textContent = 'حدث خطأ في الاتصال.'; return; }
 
     const reader = res.body.getReader();
-    const decoder = new TextDecoder();
-    let fullText = '';
+    const dec = new TextDecoder();
+    let full = '';
 
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
-      const chunk = decoder.decode(value, { stream: true });
-      for (const line of chunk.split('\n')) {
+      for (const line of dec.decode(value, { stream: true }).split('\n')) {
         if (!line.startsWith('data: ')) continue;
         try {
-          const payload = JSON.parse(line.slice(6));
-          if (payload.status) {
+          const p = JSON.parse(line.slice(6));
+          if (p.status) {
             if (!statusEl) {
               statusEl = document.createElement('div');
-              statusEl.className = 'status-bubble';
-              statusEl.innerHTML = `<span class="dot-pulse"></span><span></span>`;
+              statusEl.className = 'status-chip';
+              statusEl.innerHTML = `<div class="typing-dots"><span></span><span></span><span></span></div><span id="status-txt"></span>`;
               aEl.parentElement.insertBefore(statusEl, aEl);
             }
-            statusEl.querySelector('span:last-child').textContent = payload.status;
+            statusEl.querySelector('#status-txt').textContent = p.status;
           }
-          if (payload.content) {
+          if (p.content) {
             if (statusEl) { statusEl.remove(); statusEl = null; }
-            fullText += payload.content;
-            bubble.textContent = fullText;
+            full += p.content;
+            bubble.textContent = full;
             scrollChat();
           }
-          if (payload.done) {
-            if (statusEl) { statusEl.remove(); }
-          }
+          if (p.done && statusEl) { statusEl.remove(); statusEl = null; }
         } catch {}
       }
     }
-    if (!fullText) bubble.textContent = 'لم يتم استلام رد من المساعد.';
-    // Refresh summary after possible writes
-    loadSummary();
+    if (!full) bubble.textContent = 'عذراً، خدمة المساعد الذكي غير متوفرة مؤقتاً. يرجى المحاولة لاحقاً.';
+    loadSummary(); loadTransactions();
   } catch (e) {
     bubble.textContent = 'خطأ في الاتصال: ' + e.message;
   } finally {
     isStreaming = false;
-    disableInput(false);
+    document.getElementById('send-btn').disabled = false;
     scrollChat();
   }
 }
 
-function sendChip(text) {
-  document.getElementById('chat-input').value = text;
+function sendChip(t) {
+  goChat();
+  document.getElementById('chat-input').value = t;
   sendMessage();
 }
+function handleKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
+function autoResize(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 100) + 'px'; }
 
-function handleKey(e) {
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
-}
-
-function autoResize(el) {
-  el.style.height = 'auto';
-  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
-}
-
-function disableInput(v) {
-  document.getElementById('chat-input').disabled = v;
-}
-
-/* ── Message DOM ── */
+/* ── DOM Helpers ── */
 function appendMsg(role, text) {
-  const container = document.getElementById('chat-messages');
+  const c = document.getElementById('chat-messages');
   const div = document.createElement('div');
   div.className = `msg ${role}`;
   const now = new Date().toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
-  div.innerHTML = `<div class="msg-bubble">${escapeHtml(text)}</div><div class="msg-time">${now}</div>`;
-  // Allow textContent updates (no escaping needed when setting .textContent directly)
+  div.innerHTML = `<div class="msg-bubble"></div><div class="msg-time">${now}</div>`;
   div.querySelector('.msg-bubble').textContent = text;
-  container.appendChild(div);
-  scrollChat();
+  c.appendChild(div); scrollChat();
   return div;
 }
-
-function clearMessages() {
-  const c = document.getElementById('chat-messages');
-  c.innerHTML = `
-    <div class="welcome-card" id="welcome-card">
-      <div class="big-icon">🌟</div>
-      <h2>مرحباً! أنا سِراج</h2>
-      <p>مستشارك المالي الذكي. يمكنني مساعدتك في تحليل مصاريفك وتخطيط مدخراتك.</p>
-      <div class="welcome-chips">
-        <span class="chip" onclick="sendChip('كيف حال ميزانيتي هذا الشهر؟')">📊 تحليل الميزانية</span>
-        <span class="chip" onclick="sendChip('أريد إنشاء حصالة ادخار')">🐖 إنشاء حصالة</span>
-      </div>
-    </div>`;
-  sessionId = null;
-}
-
-function hideWelcome() {
-  const w = document.getElementById('welcome-card');
-  if (w) w.remove();
-}
-
 function scrollChat() {
   const c = document.getElementById('chat-messages');
   c.scrollTop = c.scrollHeight;
 }
 
-function escapeHtml(t) {
-  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-
-/* ── Savings Modal ── */
+/* ══ SAVINGS MODAL ══ */
 function openSavingsModal() {
-  // Set a sensible default date (6 months from now)
   const d = new Date(); d.setMonth(d.getMonth() + 6);
   document.getElementById('s-date').value = d.toISOString().split('T')[0];
   document.getElementById('savings-modal').classList.remove('hidden');
 }
-function closeSavingsModal() {
-  document.getElementById('savings-modal').classList.add('hidden');
-}
+function closeSavingsModal() { document.getElementById('savings-modal').classList.add('hidden'); }
 function createSavingsViaChat() {
-  const name    = document.getElementById('s-name').value.trim();
-  const target  = document.getElementById('s-target').value;
+  const name = document.getElementById('s-name').value.trim();
+  const target = document.getElementById('s-target').value;
   const monthly = document.getElementById('s-monthly').value;
-  const date    = document.getElementById('s-date').value;
+  const date = document.getElementById('s-date').value;
   if (!name || !target || !monthly || !date) { alert('يرجى تعبئة جميع الحقول'); return; }
   closeSavingsModal();
-  hideWelcome();
-  const msg = `أريد إنشاء حصالة ادخار باسم "${name}" بهدف ${target} ريال، بمساهمة شهرية ${monthly} ريال، وتاريخ انتهاء ${date}`;
-  document.getElementById('chat-input').value = msg;
-  sendMessage();
+  sendChip(`أريد إنشاء حصالة ادخار باسم "${name}" بهدف ${target} ريال، بمساهمة شهرية ${monthly} ريال، وتاريخ انتهاء ${date}`);
 }
 
 /* ── Boot ── */
