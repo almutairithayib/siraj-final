@@ -9,8 +9,9 @@ class Settings(BaseSettings):
     JWT_EXPIRE_MINUTES: int = 1440  # 24 hours
 
     # AI Provider Configuration
-    AI_PRIMARY_MODEL: str = "gemini-3.5-flash"
-    AI_SECONDARY_MODEL: str = "gpt-4.1-mini"  # Used only if OPENAI_API_KEY is set
+    AI_PRIMARY_MODEL: str = "gemini-2.0-flash"
+    AI_SECONDARY_MODEL: str = "gpt-4o-mini"  # Used only if OPENAI_API_KEY is set
+    OPENAI_BASE_URL: str = ""  # Override for Replit AI proxy or custom endpoint
     AI_RETRY_MAX: int = 3
     AI_RETRY_BASE_DELAY: float = 1.0  # seconds
     AI_REQUEST_TIMEOUT: int = 30  # seconds

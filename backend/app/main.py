@@ -1,8 +1,11 @@
 import logging
 import sys
 from contextlib import asynccontextmanager
+from pathlib import Path
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 
 # Configure structured logging for Siraj AI modules
 logging.basicConfig(
@@ -84,8 +87,14 @@ app.include_router(alerts_router, prefix="/api/v1")
 app.include_router(goals_router, prefix="/api/v1")
 app.include_router(chat_router, prefix="/api/v1")
 
-@app.get("/", tags=["Health"])
-async def root():
+@app.get("/", tags=["Frontend"])
+async def serve_frontend():
+    """Serve the Siraj Arabic chat frontend."""
+    index = Path(__file__).parent / "static" / "index.html"
+    return FileResponse(str(index))
+
+@app.get("/health", tags=["Health"])
+async def health():
     return {
         "status": "online",
         "message": "Welcome to Siraj (سراج) API Layer. Everything is running smoothly!",

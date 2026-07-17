@@ -357,13 +357,17 @@ async def _call_openai(
     tools: list,
     model: str,
 ) -> OpenAIResponseWrapper:
-    """Call OpenAI API as secondary provider."""
+    """Call OpenAI API (or Replit AI proxy) as secondary provider."""
     import openai
 
-    client = openai.AsyncOpenAI(
+    kwargs = dict(
         api_key=settings.OPENAI_API_KEY,
         timeout=settings.AI_REQUEST_TIMEOUT,
     )
+    if settings.OPENAI_BASE_URL:
+        kwargs["base_url"] = settings.OPENAI_BASE_URL
+
+    client = openai.AsyncOpenAI(**kwargs)
 
     messages, tools_openai = _convert_contents_for_openai(contents, system_prompt, tools)
 
