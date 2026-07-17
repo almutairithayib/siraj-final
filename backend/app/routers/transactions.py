@@ -54,7 +54,7 @@ async def create_transaction(
     new_txn = Transaction(
         user_id=current_user.id,
         amount=transaction_in.amount,
-        category=transaction_in.category,
+        category=transaction_in.category.value,
         type=transaction_in.type,
         description=transaction_in.description,
         transaction_date=transaction_in.transaction_date

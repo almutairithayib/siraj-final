@@ -2,6 +2,7 @@ import uuid
 from datetime import datetime
 from pydantic import BaseModel, Field
 
+
 class BudgetBase(BaseModel):
     category: str
     limit_amount: float = Field(..., gt=0)

@@ -15,6 +15,8 @@ TXN_URL      = "/api/v1/transactions/"
 
 USER_A = {"email": "alice@example.com", "full_name": "Alice", "password": "AlicePass1!", "currency": "SAR"}
 USER_B = {"email": "bob@example.com",   "full_name": "Bob",   "password": "BobPass1!",   "currency": "SAR"}
+# Isolated user whose transaction list is touched by exactly one test
+USER_LIST = {"email": "list_user@example.com", "full_name": "ListUser", "password": "ListPass1!", "currency": "SAR"}
 
 VALID_TXN = {
     "amount": 150.00,
@@ -104,6 +106,32 @@ async def test_create_transaction_invalid_type_rejected(client):
 
 
 @pytest.mark.asyncio
+async def test_create_transaction_invalid_category_rejected(client):
+    """A category not in the predefined enum must be rejected with 422."""
+    token = await _register_and_login(client, USER_A)
+    for bad_cat in ("food", "FOOD", "grocieries", "misc", "random", ""):
+        payload = {**VALID_TXN, "category": bad_cat}
+        resp = await client.post(TXN_URL, json=payload, headers=_auth(token))
+        assert resp.status_code == 422, f"Expected 422 for category={bad_cat!r}, got {resp.status_code}"
+
+
+@pytest.mark.asyncio
+async def test_create_transaction_valid_categories_accepted(client):
+    """Each value in the predefined category enum must be accepted."""
+    token = await _register_and_login(client, USER_A)
+    valid_categories = [
+        "Food", "Transport", "Housing", "Healthcare", "Education",
+        "Entertainment", "Shopping", "Utilities", "Savings", "Salary",
+        "Investment", "Other",
+    ]
+    for cat in valid_categories:
+        payload = {**VALID_TXN, "category": cat}
+        resp = await client.post(TXN_URL, json=payload, headers=_auth(token))
+        assert resp.status_code == 201, f"Expected 201 for category={cat!r}, got {resp.status_code}: {resp.text}"
+        assert resp.json()["category"] == cat
+
+
+@pytest.mark.asyncio
 async def test_create_transaction_requires_auth(client):
     """Creating a transaction without a token must return 401."""
     resp = await client.post(TXN_URL, json=VALID_TXN)
@@ -117,7 +145,8 @@ async def test_create_transaction_requires_auth(client):
 @pytest.mark.asyncio
 async def test_list_transactions_returns_own_data(client):
     """Listing transactions returns only the authenticated user's records."""
-    token = await _register_and_login(client, USER_A)
+    # Use an isolated user so cross-test pollution does not affect the assertion.
+    token = await _register_and_login(client, USER_LIST)
     await client.post(TXN_URL, json=VALID_TXN, headers=_auth(token))
 
     resp = await client.get(TXN_URL, headers=_auth(token))
