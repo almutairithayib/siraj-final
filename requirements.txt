@@ -9,3 +9,7 @@ python-jose[cryptography]>=3.3.0
 passlib[bcrypt]>=1.7.4
 bcrypt>=4.0.0
 google-genai>=0.8.0
+aiosqlite
+httpx
+pytest
+pytest-asyncio
