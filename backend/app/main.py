@@ -17,7 +17,7 @@ logging.getLogger("httpcore").setLevel(logging.WARNING)
 logging.getLogger("openai").setLevel(logging.WARNING)
 
 
-from backend.app.database import create_all_tables, async_session_maker
+from backend.app.database import async_session_maker
 from backend.app.seed import seed_data
 from backend.app.routers import (
     auth_router,
@@ -34,16 +34,17 @@ from backend.app.routers import (
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Create tables on startup
-    await create_all_tables()
-    
-    # Seed database
+    # Migrations are applied by the workflow command before uvicorn starts:
+    #   alembic upgrade head && uvicorn backend.app.main:app ...
+    # Nothing to do here for schema management.
+
+    # Seed database with demo data
     async with async_session_maker() as session:
         try:
             await seed_data(session)
         except Exception as e:
             print(f"Error seeding database: {e}")
-            
+
     yield
     # Cleanup on shutdown (if any)
 

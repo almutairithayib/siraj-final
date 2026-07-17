@@ -7,8 +7,10 @@ Smart personal finance backend for Saudi Arabia, built with FastAPI. Originally 
 The server starts automatically via the **Start application** workflow:
 
 ```
-uvicorn backend.app.main:app --host 0.0.0.0 --port 8000
+alembic upgrade head && uvicorn backend.app.main:app --host 0.0.0.0 --port 8000
 ```
+
+`alembic upgrade head` runs first, applying any pending schema migrations before the server accepts requests. On an already up-to-date database it completes in under a second.
 
 Port **8000** — console output mode (API only, no frontend).
 
@@ -24,6 +26,23 @@ Once running, open:
 |----------|------------------|
 | Email    | sara@siraj.sa    |
 | Password | password123      |
+
+## Database migrations (Alembic)
+
+Schema changes are tracked with Alembic. The migration history lives in `backend/alembic/versions/`.
+
+```bash
+# Create a new migration after changing a model
+alembic revision --autogenerate -m "describe_your_change"
+
+# Apply all pending migrations (also runs automatically on startup)
+alembic upgrade head
+
+# Roll back one migration
+alembic downgrade -1
+```
+
+`alembic.ini` sits at the project root; `backend/alembic/env.py` reads `DATABASE_URL` from the environment and handles the `postgresql://` → `postgresql+asyncpg://` rewrite automatically.
 
 ## Stack
 
